@@ -35,30 +35,33 @@
 <img src="docs/figs/arc.png" align="center" width="100%">
 
 
+# :gear: Installation
+
+```
+pip install virtualenv
+.\Master\Scripts\activate
+```
+
 # :hotsprings: Setup
-- Tải : [info-files](https://drive.google.com/file/d/1j7bHCOOR6Rug106UkPFhQLirDjYBo--z/view) và đạt vào ./info-files/.
+- Tải dataset sau: [CUB](https://data.caltech.edu/records/65de6-vp158) và đặt vào ./data/.
+- Tải metadata sau: [info-files](https://drive.google.com/file/d/1j7bHCOOR6Rug106UkPFhQLirDjYBo--z/view) và đạt vào ./info-files/.
 - Các mô hình đã đào tạo trước đó: [Pre-moder](https://drive.google.com/file/d/1o1HRM8ZNnIp9CLPH0Y0E6W1N4xsr786c/view). Đặt trong ./pretrained_models/. 
-Upload cả 2 lên kaggle và đặt name dataset là data-svip
+
 # :bar_chart: Train
-- Chạy lần lượt tường code block
+
+Trước tiên phải tạo ./attribute/w2v
 ```
-!git clone https://github.com/NightBot419/SVIP.git
+python ./tools/extract_attribute_w2v_CUB.py
 ```
+
+- Nếu chỉ muốn chạy thử nghiệm nhanh nhất:
 ```
-!mkdir -p /kaggle/working/SVIP/pretrained_models
-!cp /kaggle/input/data-svip/pretrained_models/vit_base_patch16_224.pth /kaggle/working/SVIP/pretrained_models
-!mkdir -p /kaggle/working/SVIP/info-files
-!cp /kaggle/input/data-svip/info-files/x-CUB-data-image.pth /kaggle/working/SVIP/info-files
+python main.py --log_dir ./logs/SVIP_CUB_demo --epochs 1 --bs 256 --lr 3e-5 --num_workers 2 --test_interval 5
 ```
+
+- Nếu muốn ra kết quả tốt nhất:
 ```
-%%bash
-cd SVIP
-python tools/extract_attribute_w2v_CUB.py
-```
-```
-%%bash
-cd SVIP
-python main.py --bs 32
+python main.py
 ```
 
 # Cây thu mục
