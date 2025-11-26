@@ -37,7 +37,7 @@
 
 # :hotsprings: Setup
 - Tải : [info-files](https://drive.google.com/file/d/1j7bHCOOR6Rug106UkPFhQLirDjYBo--z/view) và đạt vào ./info-files/.
-- Các mô hình đã đào tạo trước đó: [Pre-moder](https://drive.google.com/file/d/1o1HRM8ZNnIp9CLPH0Y0E6W1N4xsr786c/view). Đặt trong ./pretrained_models/. 
+- Tải: [Pre-moder](https://drive.google.com/file/d/1o1HRM8ZNnIp9CLPH0Y0E6W1N4xsr786c/view). Đặt trong ./pretrained_models/. 
 - Upload cả 2 lên kaggle và đặt name dataset là data-svip
 # :bar_chart: Train
 - Chạy lần lượt tường code block
