@@ -219,6 +219,10 @@ def main(args):
     transformer.load_state_dict(state, strict=False)
 
     transformer.cuda()
+    if torch.cuda.device_count() > 1:
+        logger.print('Sử dụng {} GPUs! Bọc mô hình với nn.DataParallel.'.format(torch.cuda.device_count()))
+        # Bọc mô hình
+        transformer = torch.nn.DataParallel(transformer)
 
     if os.path.isfile(args.resume):
         checkpoint = torch.load(args.resume)
