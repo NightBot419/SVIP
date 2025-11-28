@@ -69,11 +69,25 @@ args.log_dir = "./logs/ViT-" + args.dataset + "-" + args.exp_name
 if args.manual_seed is None or args.manual_seed < 0:
     args.manual_seed = random.randint(1, 100000)
 assert args.log_dir is not None, 'The log_dir argument can not be None.'
-os.environ["CUDA_VISIBLE_DEVICES"] = args.device
+# os.environ["CUDA_VISIBLE_DEVICES"] = args.device
+# 
+if torch.cuda.device_count() > 1:
+    # Logger.print(f"Using {torch.cuda.device_count()} GPUs!")
+    device = torch.device("cuda:0")
+    args.device_ids = list(range(torch.cuda.device_count()))
+else:
+    # Logger.print("Using single GPU or CPU.")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    args.device_ids = [0] if torch.cuda.is_available() else []
+#
+
 torch.autograd.set_detect_anomaly(True)
 
 
 def train_model(args, loader, semantics, unseen_semantics, transformer,  optimizer, logger, epoch_str, epoch):
+    #
+    device = next(transformer.parameters()).device 
+
     batch_time, Xlosses, CElosses, BCElosses, ATTlosses, KLlosses, MSELosses, accs, token_accs, end = AverageMeter(), \
                                                         AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), \
                                                 AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), time.time()
@@ -82,7 +96,8 @@ def train_model(args, loader, semantics, unseen_semantics, transformer,  optimiz
     loader.dataset.set_return_label_mode('new')
     loader.dataset.set_return_img_mode('original')
 
-    semantics = semantics.cuda()
+    # semantics = semantics.cuda()
+    semantics = semantics.to(device)
     mse = torch.nn.MSELoss()
     bce= torch.nn.BCELoss()
     kld = torch.nn.KLDivLoss()
@@ -90,7 +105,10 @@ def train_model(args, loader, semantics, unseen_semantics, transformer,  optimiz
     for batch_idx, (img_feat, targets, idx) in enumerate(loader):
 
         batch = targets.shape[0]  # assume train and val has the same amount
-        source_att_fm, pruned_att_fm, patch_labels, patch_pred = transformer(img_feat.cuda(), epoch=epoch)
+        img_feat_device = img_feat.to(device) 
+        targets_device = targets.to(device)
+        source_att_fm, pruned_att_fm, patch_labels, patch_pred = transformer(img_feat_device, epoch=epoch)
+        # source_att_fm, pruned_att_fm, patch_labels, patch_pred = transformer(img_feat.cuda(), epoch=epoch)
 
         mse_loss = args.mse * mse(source_att_fm, semantics[targets]) + \
                    args.mse * mse(pruned_att_fm, semantics[targets])
@@ -196,13 +214,15 @@ def main(args):
     logger.print('test-seen-dataset   : {:}'.format(test_seen_dataset))
     logger.print('test-unseen-dataset : {:}'.format(test_unseen_dataset))
 
-    features = graph_info['ori_attributes'].float().cuda()
+    # features = graph_info['ori_attributes'].float().cuda()
+    features = graph_info['ori_attributes'].float().to(device)
 
     temp_norm = torch.norm(features, p=2, dim=1).unsqueeze(1).expand_as(features)
     features = features.div(temp_norm + 1e-5)
 
     train_features = features[graph_info['train_classes'], :]
     test_features = features[graph_info['unseen_classes'], :]
+    
     logger.print('feature-shape={:}, train-feature-shape={:}'.format(list(features.shape), list(train_features.shape)))
 
 
@@ -218,14 +238,25 @@ def main(args):
     del state[classifier_name + '.bias']
     transformer.load_state_dict(state, strict=False)
 
-    transformer.cuda()
+    # transformer.cuda()
+    transformer = transformer.to(device)
+    if len(args.device_ids) > 1:
+        transformer = torch.nn.DataParallel(transformer, device_ids=args.device_ids)
  
     if os.path.isfile(args.resume):
-        checkpoint = torch.load(args.resume)
+        # checkpoint = torch.load(args.resume)
+        checkpoint = torch.load(args.resume, map_location=device)
         start_epoch = checkpoint['epoch'] + 1
         best_accs = checkpoint['best_accs']
         best_stacked_accs = checkpoint['best_stacked_accs']
-        transformer.load_state_dict(checkpoint['network'])
+
+
+        # transformer.load_state_dict(checkpoint['network'])
+        if isinstance(transformer, torch.nn.DataParallel):
+            transformer.module.load_state_dict(checkpoint['network'])
+        else:
+            transformer.load_state_dict(checkpoint['network'])
+
         logger.print('load checkpoint from {:}'.format(args.resume))
         transformer.eval()
         with torch.no_grad():
@@ -282,13 +313,17 @@ def main(args):
 
         # save the info
         if better_model:
+            #
+            network_state_dict = transformer.module.state_dict() if isinstance(transformer, torch.nn.DataParallel) else transformer.state_dict()
+            #
             info = {'epoch': iepoch,
                     'args': deepcopy(args),
                     'finish': iepoch + 1 == args.epochs,
                     'best_accs': best_accs,
                     'best_stacked_accs': best_stacked_accs,
                     'semantic_lists': None,
-                    'network': transformer.state_dict(),
+                    # 'network': transformer.state_dict(),
+                    'network': network_state_dict,
                     'optimizer': optimizer.state_dict(),
                     }
             try:

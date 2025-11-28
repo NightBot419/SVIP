@@ -1,0 +1,10 @@
+args :
+Namespace(exp_name='SVIP', log_dir='./logs/ViT-CUB-SVIP', data_root='info-files/x-CUB-data-image.pth', dataset='CUB', bs=16, epochs=30, manual_seed=26961, attribute_dim=312, pre_lr=0.001, lr=3e-05, wd=0, pre_epochs=3, sim_score='cos', num_workers=2, ce_source=1.0, ce_target=1.0, scale=5, log_interval=50, test_interval=1, pretrained_model='checkpoints/vit_base_patch16_224.pth', resume='', device='0', keep_token=40, pool='mean', kl_t=20, kl=1, att_dec=0.3, patch_cls=3, replace_n=1, mse=0.0, schedule_step_size=5, schedule_gamma=0.8, beta=0.5, device_ids=[0])
+PyTorch: 2.9.0+cu128
+Start Main with this file : D:\SVIP\main.py
+train-dataset       : ZSLDataset( 7057 samples with 150 classes [train])
+test-seen-dataset   : ZSLDataset( 1764 samples with 150 classes [test-seen])
+test-unseen-dataset : ZSLDataset( 2967 samples with 50 classes [test-unseen])
+feature-shape=[200, 312], train-feature-shape=[150, 312]
+Train the 000/030-th epoch, [Need: 00:00:00], LR=0.001000
+[2025-11-28-17:10:10] [000/030] [000/441] TIME[21.32 (21.32)] loss=32.9893761 (32.98938), ce=30.2362976 (30.23630), kl=0.0000602 (0.00006), att=1.6190069 (1.61901), bce=0.7557722 (0.75577), mse=0.0000000 (0.00000)acc@1=0.0 (0.0) acc_t=20.9 (20.9) B=16,
