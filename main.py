@@ -271,6 +271,8 @@ def main(args):
                             'gzs-seen': -1, 'gzs-unseen': -1, 'gzs-H': -1, 'best-info': None}
 
     epoch_time, start_time = AverageMeter(), time.time()
+    #
+    model_to_optimize = transformer.module if isinstance(transformer, torch.nn.DataParallel) else transformer
 
     params_to_update = []
     params_names = []
@@ -280,11 +282,16 @@ def main(args):
             params_names.append(name)
 
 
-    optimizer = torch.optim.Adam(list(transformer.head_1.parameters()) +
-                                 list(transformer.token_cls.parameters()) +
-                                 list(transformer.v2p.parameters()) +
-                                 list(transformer.p2t.parameters()), lr=args.pre_lr, betas=(args.beta, 0.999), weight_decay=args.wd)
-
+    # optimizer = torch.optim.Adam(list(transformer.head_1.parameters()) +
+    #                              list(transformer.token_cls.parameters()) +
+    #                              list(transformer.v2p.parameters()) +
+    #                              list(transformer.p2t.parameters()), lr=args.pre_lr, betas=(args.beta, 0.999), weight_decay=args.wd)
+    
+    optimizer = torch.optim.Adam(list(model_to_optimize.head_1.parameters()) +
+                                 list(model_to_optimize.token_cls.parameters()) +
+                                 list(model_to_optimize.v2p.parameters()) +
+                                 list(model_to_optimize.p2t.parameters()), 
+                                 lr=args.pre_lr, betas=(args.beta, 0.999), weight_decay=args.wd)
 
     for iepoch in range(start_epoch, args.epochs):
 
@@ -293,7 +300,11 @@ def main(args):
 
         if iepoch > args.pre_epochs:
             current_lr = args.lr * (args.schedule_gamma ** (iepoch // args.schedule_step_size)) #1e-4
-            optimizer = torch.optim.Adam(list(transformer.parameters()), lr=current_lr, betas=(args.beta, 0.999), weight_decay=args.wd)
+            # optimizer = torch.optim.Adam(list(transformer.parameters()), lr=current_lr, betas=(args.beta, 0.999), weight_decay=args.wd)
+            # logger.print('Train the {:}-th epoch, {:}, LR={:1.6f} ~ {:1.6f}'.format(epoch_str, time_str, (current_lr), (current_lr)))
+            model_params = transformer.module.parameters() if isinstance(transformer, torch.nn.DataParallel) else transformer.parameters()
+            
+            optimizer = torch.optim.Adam(list(model_params), lr=current_lr, betas=(args.beta, 0.999), weight_decay=args.wd)
             logger.print('Train the {:}-th epoch, {:}, LR={:1.6f} ~ {:1.6f}'.format(epoch_str, time_str, (current_lr), (current_lr)))
         else:
             logger.print('Train the {:}-th epoch, {:}, LR={:1.6f}'.format(epoch_str, time_str, args.pre_lr))

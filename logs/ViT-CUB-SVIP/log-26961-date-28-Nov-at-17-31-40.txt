@@ -1,0 +1,4 @@
+args :
+Namespace(exp_name='SVIP', log_dir='./logs/ViT-CUB-SVIP', data_root='info-files/x-CUB-data-image.pth', dataset='CUB', bs=16, epochs=30, manual_seed=26961, attribute_dim=312, pre_lr=0.001, lr=3e-05, wd=0, pre_epochs=3, sim_score='cos', num_workers=2, ce_source=1.0, ce_target=1.0, scale=5, log_interval=50, test_interval=1, pretrained_model='checkpoints/vit_base_patch16_224.pth', resume='', device='0', keep_token=40, pool='mean', kl_t=20, kl=1, att_dec=0.3, patch_cls=3, replace_n=1, mse=0.0, schedule_step_size=5, schedule_gamma=0.8, beta=0.5, device_ids=[0])
+PyTorch: 2.9.0+cu128
+Start Main with this file : D:\SVIP\main.py
