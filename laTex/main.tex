@@ -1,0 +1,66 @@
+\documentclass[twocolumn]{article}
+
+% Gói ngôn ngữ và font chữ
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+
+% Gói toán học
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+% Gói hình ảnh và bảng
+\usepackage{graphicx}
+\usepackage{booktabs} % Cho bảng đẹp hơn
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{adjustbox}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{stfloats} % Để xử lý vị trí float 2 cột
+
+% Gói layout và siêu liên kết
+\usepackage{geometry}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% Thiết lập layout trang
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+}
+\setlength{\columnsep}{6mm}
+
+% Thông tin tác giả và tiêu đề
+\title{\textbf{SVIP: Semantically Contextualized Visual Patches for Zero-Shot Learning}}
+\author{
+    Zhi Chen$^{1*}$, Zecheng Zhao$^{2*}$, Jingcai Guo$^3$, Jingjing Li$^1$, Zi Huang$^2$ \\
+    \small $^1$University of Southern Queensland, $^2$University of Queensland \\
+    \small $^3$The Hong Kong Polytechnic University \\
+    \small $^4$University of Electronic Science and Technology of China \\
+    \small \texttt{uqzhichen@gmail.com, helen.huang@uq.edu.au}
+}
+\date{July 10, 2025}
+
+
+\begin{document}
+
+\maketitle
+\def\thefootnote{*}\footnotetext{Đóng góp ngang nhau. Công việc được thực hiện khi còn ở Đại học Queensland.}\def\thefootnote{\arabic{footnote}}
+
+\input{abstract.tex}
+
+\input{introduction.tex}
+\input{related_work.tex}
+\input{methodology.tex}
+\input{experiments.tex}
+\input{conclusions.tex}
+\input{acknowledgment.tex}
+\input{references.tex}
+
+\end{document}
