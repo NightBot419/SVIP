@@ -36,6 +36,9 @@ class ZSLDataset(data.Dataset):
                     image_path = image_path.replace("/home/uqzche20/Datasets/", "data/")
                     images_new.append(image_path)
                 images = images_new
+            elif dataset == "Fish":
+                # Paths are already correct from prepare_fish_dataset.py
+                pass
 
         elif mode == 'test-seen':
             images, labels = infos['test_seen_files'], infos['test_seen_label']
@@ -57,6 +60,9 @@ class ZSLDataset(data.Dataset):
                     image_path = image_path.replace("/home/uqzche20/Datasets/", "data/")
                     images_new.append(image_path)
                 images = images_new
+            elif dataset == "Fish":
+                # Paths are already correct from prepare_fish_dataset.py
+                pass
 
         elif mode == 'test-unseen':
             images, labels = infos['test_unseen_files'], infos['test_unseen_label']
@@ -78,6 +84,9 @@ class ZSLDataset(data.Dataset):
                     image_path = image_path.replace("/home/uqzche20/Datasets/", "data/")
                     images_new.append(image_path)
                 images = images_new
+            elif dataset == "Fish":
+                # Paths are already correct from prepare_fish_dataset.py
+                pass
 
         else: 'invalid mode = {:}'.format(mode)
         if 'image2feat' in infos.keys():
@@ -199,7 +208,7 @@ class ZSLDataset(data.Dataset):
                 return_img = self.train_transform(image)
             else:
                 return_img = self.valid_transform(image)
-        elif self.dataset == 'SUN':
+        elif self.dataset == 'SUN' or self.dataset == 'Fish':
             if self.mode == 'train':
                 return_img = self.train_transform(image)
             else:

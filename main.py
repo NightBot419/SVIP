@@ -19,13 +19,13 @@ parser.add_argument('--exp_name', type=str, default="SVIP", help='Experiment nam
 parser.add_argument('--log_dir', type=str, help='Save dir.')
 
 parser.add_argument('--data_root', type=str, default="info-files/", help='dataset root')
-parser.add_argument('--dataset', type=str, default="CUB", help='dataset name, i.e., CUB, AWA2, SUN')
+parser.add_argument('--dataset', type=str, default="Fish", help='dataset name, i.e., CUB, AWA2, SUN, Fish')
 
 # Optimization options
 parser.add_argument('--bs', type=int, default=64, help='The number of classes in each episode.')
 parser.add_argument('--epochs', type=int, default=30, help='The number of training epochs.')
 parser.add_argument('--manual_seed', type=int, default=26961, help='The manual seed.')
-parser.add_argument("--attribute_dim", type=int, default=312, help="Dimensionality of the latent space")
+parser.add_argument("--attribute_dim", type=int, default=63, help="Dimensionality of the latent space")
 
 parser.add_argument('--pre_lr', type=float, default=1e-3, help='The learning rate.')
 parser.add_argument('--lr', type=float, default=3e-5, help='The learning rate.')
@@ -181,6 +181,9 @@ def main(args):
     batch_size = args.bs
 
     args.att_group = get_attr_group(args.dataset)
+    if args.dataset == 'Fish':
+        logger.print("Using empty attribute groups for Fish dataset (att_dec loss disabled).")
+        args.att_group = {}
     train_dataset = ZSLDataset(args, graph_info, 'train', feature=False, dataset=args.dataset)
 
     test_unseen_dataset = ZSLDataset(args, graph_info, 'test-unseen', feature=False, dataset=args.dataset)

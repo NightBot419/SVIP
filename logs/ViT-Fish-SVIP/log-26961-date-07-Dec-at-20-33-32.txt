@@ -1,0 +1,8 @@
+args :
+Namespace(exp_name='SVIP', log_dir='./logs/ViT-Fish-SVIP', data_root='info-files/x-Fish-data-image.pth', dataset='Fish', bs=32, epochs=30, manual_seed=26961, attribute_dim=63, pre_lr=0.001, lr=3e-05, wd=0, pre_epochs=3, sim_score='cos', num_workers=2, ce_source=1.0, ce_target=1.0, scale=5, log_interval=50, test_interval=1, pretrained_model='checkpoints/vit_base_patch16_224.pth', resume='', device='0', keep_token=40, pool='mean', kl_t=20, kl=1, att_dec=0.3, patch_cls=3, replace_n=1, mse=0.0, schedule_step_size=5, schedule_gamma=0.8, beta=0.5)
+PyTorch: 2.9.0+cu128
+Start Main with this file : D:\SVIP\main.py
+Using empty attribute groups for Fish dataset (att_dec loss disabled).
+train-dataset       : ZSLDataset( 2615 samples with 2615 classes [train])
+test-seen-dataset   : ZSLDataset(  654 samples with 654 classes [test-seen])
+test-unseen-dataset : ZSLDataset( 1146 samples with 1146 classes [test-unseen])

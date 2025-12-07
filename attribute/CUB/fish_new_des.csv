@@ -1,0 +1,64 @@
+,idx,des,new_des
+0,1,body_shape::fusiform,body shape fusiform
+1,2,body_shape::compressed,body shape compressed
+2,3,body_shape::elongated,body shape elongated
+3,4,body_shape::globular,body shape globular
+4,5,body_shape::depressed,body shape depressed
+5,6,primary_color::blue,primary color blue
+6,7,primary_color::red,primary color red
+7,8,primary_color::yellow,primary color yellow
+8,9,primary_color::green,primary color green
+9,10,primary_color::orange,primary color orange
+10,11,primary_color::black,primary color black
+11,12,primary_color::white,primary color white
+12,13,primary_color::silver,primary color silver
+13,14,primary_color::gray,primary color gray
+14,15,pattern::striped_vertical,pattern striped vertical
+15,16,pattern::striped_horizontal,pattern striped horizontal
+16,17,pattern::spotted,pattern spotted
+17,18,pattern::banded,pattern banded
+18,19,pattern::marbled,pattern marbled
+19,20,pattern::mottled,pattern mottled
+20,21,pattern::plain,pattern plain
+21,22,mouth_type::terminal,mouth type terminal
+22,23,mouth_type::superior,mouth type superior
+23,24,mouth_type::inferior,mouth type inferior
+24,25,mouth_type::sucker_like,mouth type sucker like
+25,26,tail_fin_shape::forked,tail fin shape forked
+26,27,tail_fin_shape::rounded,tail fin shape rounded
+27,28,tail_fin_shape::truncate_square,tail fin shape truncate square
+28,29,tail_fin_shape::pointed,tail fin shape pointed
+29,30,tail_fin_shape::lunate_crescent,tail fin shape lunate crescent
+30,31,head_shape::pointed,head shape pointed
+31,32,head_shape::rounded,head shape rounded
+32,33,head_shape::flat,head shape flat
+33,34,head_shape::blunt,head shape blunt
+34,35,eye_size::small,eye size small
+35,36,eye_size::medium,eye size medium
+36,37,eye_size::large,eye size large
+37,38,habitat::freshwater,habitat freshwater
+38,39,habitat::saltwater,habitat saltwater
+39,40,habitat::brackish,habitat brackish
+40,41,habitat_zone::reef_dweller,habitat zone reef dweller
+41,42,habitat_zone::open_ocean,habitat zone open ocean
+42,43,habitat_zone::bottom_dweller,habitat zone bottom dweller
+43,44,habitat_zone::surface_dweller,habitat zone surface dweller
+44,45,relative_size::small,relative size small
+45,46,relative_size::medium,relative size medium
+46,47,relative_size::large,relative size large
+47,48,special_feature::has_barbels,special feature has barbels
+48,49,special_feature::has_adipose_fin,special feature has adipose fin
+49,50,special_feature::has_venomous_spines,special feature has venomous spines
+50,51,special_feature::has_long_snout,special feature has long snout
+51,52,special_feature::is_bioluminescent,special feature is bioluminescent
+52,53,special_feature::uses_camouflage,special feature uses camouflage
+53,54,diet::carnivore,diet carnivore
+54,55,diet::herbivore,diet herbivore
+55,56,diet::omnivore,diet omnivore
+56,57,scale_type::large_scales,scale type large scales
+57,58,scale_type::small_scales,scale type small scales
+58,59,scale_type::no_scales,scale type no scales
+59,60,behavior::schooling,behavior schooling
+60,61,behavior::solitary,behavior solitary
+61,62,fin_type::spiny_fins,fin type spiny fins
+62,63,fin_type::soft_rayed_fins,fin type soft rayed fins
